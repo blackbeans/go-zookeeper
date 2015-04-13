@@ -68,10 +68,25 @@ const (
 	StateHasSession = State(101)
 )
 
+type CreateType int32
+
+func (c CreateType) String() string {
+	switch c {
+	case 0:
+		return "CreatePersistent"
+	case 1:
+		return "CreateEphemeral"
+	case 2:
+		return "CreateSequence"
+	default:
+		return "Unknown"
+	}
+}
+
 const (
-	CreatePersistent = 0 // Node remains after session expires
-	CreateEphemeral  = 1 // Node deletes when the creator session expires
-	CreateSequence   = 2 // Sequence number is appended to the node path
+	CreatePersistent CreateType = 0 // Node remains after session expires
+	CreateEphemeral  CreateType = 1 // Node deletes when the creator session expires
+	CreateSequence   CreateType = 2 // Sequence number is appended to the node path
 )
 
 var (

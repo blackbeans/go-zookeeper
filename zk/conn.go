@@ -648,9 +648,9 @@ func (c *Conn) Set(path string, data []byte, version int32) (*Stat, error) {
 	return &res.Stat, err
 }
 
-func (c *Conn) Create(path string, data []byte, flags int32, acl []ACL) (string, error) {
+func (c *Conn) Create(path string, data []byte, flags CreateType, acl []ACL) (string, error) {
 	res := &createResponse{}
-	_, err := c.request(opCreate, &CreateRequest{path, data, acl, flags}, res, nil)
+	_, err := c.request(opCreate, &CreateRequest{path, data, acl, int32(flags)}, res, nil)
 	return res.Path, err
 }
 
@@ -673,7 +673,7 @@ func (c *Conn) CreateProtectedEphemeralSequential(path string, data []byte, acl 
 
 	var newPath string
 	for i := 0; i < 3; i++ {
-		newPath, err = c.Create(protectedPath, data, CreateEphemeral|CreateSequence, acl)
+		newPath, err = c.Create(protectedPath, data, CreateSequence, acl)
 		switch err {
 		case ErrSessionExpired:
 			// No need to search for the node since it can't exist. Just try again.
