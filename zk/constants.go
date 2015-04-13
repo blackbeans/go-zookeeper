@@ -69,8 +69,9 @@ const (
 )
 
 const (
-	FlagEphemeral = 1
-	FlagSequence  = 2
+	CreatePersistent CreateType = 0 // Node remains after session expires
+	CreateEphemeral  CreateType = 1 // Node deletes when the creator session expires
+	CreateSequence   CreateType = 2 // Sequence number is appended to the node path
 )
 
 var (
