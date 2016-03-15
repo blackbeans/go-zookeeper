@@ -148,7 +148,6 @@ func ConnectWithDialer(servers []string, recvTimeout time.Duration, dialer Diale
 
 func (c *Conn) Close() {
 	close(c.shouldQuit)
-
 	select {
 	case <-c.queueRequest(opClose, &closeRequest{}, &closeResponse{}, nil):
 	case <-time.After(time.Second):
